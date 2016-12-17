@@ -14,7 +14,7 @@ namespace TagsCloudApp.WordsPreprocessor
 
         public IEnumerable<string> Prepare(IEnumerable<string> wordFlow)
         {
-            return wordFlow.Where(w => !storage.ContainsWord(w));
+            return wordFlow.Where(w => !storage.ContainsWord(w.ToLower()));
         }
     }
 }

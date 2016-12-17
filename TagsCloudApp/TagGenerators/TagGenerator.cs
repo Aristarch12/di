@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Linq;
 using TagsCloudApp.DataProcessors;
-using TagsCloudApp.FileManagers;
 using TagsCloudApp.FileReaders;
 using TagsCloudApp.Layouters;
 using TagsCloudApp.WordsAnalyzer;

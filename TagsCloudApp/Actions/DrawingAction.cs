@@ -1,3 +1,4 @@
+using System;
 using TagsCloudApp.Settings;
 using TagsCloudApp.TagGenerators;
 
@@ -5,13 +6,15 @@ namespace TagsCloudApp.Actions
 {
     public class DrawingAction : IUiAction
     {
+        private readonly Func<Canvas, ImageSettings, CloudPainter> cloudPainterFactory;
         private readonly Canvas canvas;
         private readonly KeywordsStorage keywordsStorage;
         private readonly ITagGenerator tagGenerator;
         private readonly ImageSettings imageSettings;
 
-        public DrawingAction(Canvas canvas, KeywordsStorage keywordsStorage, ITagGenerator tagGenerator, ImageSettings imageSettings)
+        public DrawingAction(Func<Canvas, ImageSettings, CloudPainter> cloudPainterFactory, Canvas canvas, KeywordsStorage keywordsStorage, ITagGenerator tagGenerator, ImageSettings imageSettings)
         {
+            this.cloudPainterFactory = cloudPainterFactory;
             this.canvas = canvas;
             this.keywordsStorage = keywordsStorage;
             this.tagGenerator = tagGenerator;
@@ -24,7 +27,8 @@ namespace TagsCloudApp.Actions
         public void Perform()
         {
             var tags = tagGenerator.GetTags(keywordsStorage.GetKeywords(), imageSettings.Center);
-            new CloudPainter(canvas, imageSettings).Paint(tags);
+            cloudPainterFactory(canvas, imageSettings).Paint(tags);
         }
     }
+
 }

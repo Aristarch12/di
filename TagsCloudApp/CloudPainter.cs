@@ -5,19 +5,17 @@ using TagsCloudApp.Settings;
 
 namespace TagsCloudApp
 {
-    class CloudPainter
+    public class CloudPainter
     {
         private readonly Canvas canvas;
         private readonly ImageSettings settings;
-        private Brush brush;
-        private readonly StringFormat drawFormat;
+        private readonly Brush brush;
 
         public CloudPainter(Canvas canvas, ImageSettings settings)
         {
             this.canvas = canvas;
             this.settings = settings;
             brush = new SolidBrush(settings.TextColor);
-            drawFormat = new StringFormat();
         }
 
         public void Paint(IEnumerable<Tag> tags)
@@ -40,9 +38,8 @@ namespace TagsCloudApp
                 tag.Phrase,
                 tag.Font,
                 brush,
-                tag.Rectangle,
-                drawFormat
-            );
+                tag.Rectangle.Location
+                );
         }
     }
 }

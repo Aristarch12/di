@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Reflection;
 using Autofac;
+using Autofac.Builder;
 using TagsCloudApp.Settings;
 using TagsCloudApp.WordsPreprocessor;
 
@@ -30,6 +31,12 @@ namespace TagsCloudApp
             builder.RegisterInstance(imageSettings).AsSelf().SingleInstance();
             var fontSettings = new FontSettings(FontFamily.GenericSerif, 18, 40);
             builder.RegisterInstance(fontSettings).As<FontSettings>().SingleInstance();
+
+            builder.Register<Func<Canvas, ImageSettings, CloudPainter>>(c =>
+            {
+                return (canvas, settings) => new CloudPainter(canvas, settings);
+            });
+
             var container = builder.Build();
             return container.Resolve<IClient>();
         }
