@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace TagsCloudApp.WordsPreprocessor
 {
-    class LowerCaseConverter : IWordsPreprocessor
+    public class LowerCaseConverter : IWordsPreprocessor
     {
         public IEnumerable<string> Prepare(IEnumerable<string> wordFlow)
         {

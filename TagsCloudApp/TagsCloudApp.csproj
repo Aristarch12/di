@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{45D48EF2-71A4-4FA8-987B-8BB28376FB6C}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TagsCloudApp</RootNamespace>
     <AssemblyName>TagsCloudApp</AssemblyName>
@@ -49,6 +49,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\FontSizeAction.cs" />
     <Compile Include="Settings\SettingsForm.cs" />
     <Compile Include="BoringWordsStorage.cs" />
     <Compile Include="CloudPainter.cs" />
@@ -83,12 +84,13 @@
     <Compile Include="TagGenerators\TagGenerator.cs" />
     <Compile Include="KeywordsStorage.cs" />
     <Compile Include="WordsAnalyzer\IWordsAnalyzer.cs" />
+    <Compile Include="WordsAnalyzer\WeightedWord.cs" />
     <Compile Include="WordsAnalyzer\WordsCounter.cs" />
     <Compile Include="WordsPreprocessor\InfinitiveConverter.cs" />
     <Compile Include="WordsPreprocessor\IWordsPreprocessor.cs" />
     <Compile Include="WordsPreprocessor\LowerCaseConverter.cs" />
     <Compile Include="WordsPreprocessor\Preprocessor.cs" />
-    <Compile Include="WordsPreprocessor\BoringWordsRemover.cs" />
+    <Compile Include="WordsPreprocessor\BoringWordsFilter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RectangleExtension.cs" />

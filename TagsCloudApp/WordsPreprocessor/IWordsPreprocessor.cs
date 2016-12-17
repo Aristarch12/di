@@ -2,7 +2,7 @@
 
 namespace TagsCloudApp.WordsPreprocessor
 {
-    interface IWordsPreprocessor
+    public interface IWordsPreprocessor
     {
         IEnumerable<string> Prepare(IEnumerable<string> wordFlow);
     }

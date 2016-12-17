@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace TagsCloudApp.WordsAnalyzer
 {
-    class WordsCounter : IWordsAnalyzer
+    public class WordsCounter : IWordsAnalyzer
     {
         public IEnumerable<WeightedWord> Сonsider(IEnumerable<string> words)
         {

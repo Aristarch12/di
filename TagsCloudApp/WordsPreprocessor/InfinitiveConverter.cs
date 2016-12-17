@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NHunspell;
 
 namespace TagsCloudApp.WordsPreprocessor
 {
-    class InfinitiveConverter : IWordsPreprocessor
+    public class InfinitiveConverter : IWordsPreprocessor
     {
         public IEnumerable<string> Prepare(IEnumerable<string> wordFlow)
         {

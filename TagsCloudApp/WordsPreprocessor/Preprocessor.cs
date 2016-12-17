@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace TagsCloudApp.WordsPreprocessor
 {
-    class Preprocessor 
+    public class Preprocessor 
     {
         private readonly IWordsPreprocessor[] preprocessors;
         public Preprocessor(IWordsPreprocessor[] preprocessors)
@@ -15,5 +15,7 @@ namespace TagsCloudApp.WordsPreprocessor
         {
             return preprocessors.Aggregate(wordFlow, (current, wordsPreprocessor) => wordsPreprocessor.Prepare(current));
         }
+
     }
+    
 }
