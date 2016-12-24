@@ -31,12 +31,15 @@ namespace TagsCloudApp.TagGenerators
             this.fileReader = fileReader;
         }
 
-        public List<Tag> GetTags(IEnumerable<string> keywords, Point center)
+        public Result<List<Tag>> GetTags(IEnumerable<string> keywords, Point center)
         {
-            var rightPhrases = wordsPreprocessor.Prepare(keywords);
-            var weightedWords = wordsAnalyzer.Сonsider(rightPhrases);
             tagLayouter.SetCenter(center);
-            return tagLayouter.PutWords(weightedWords).ToList();
+            return wordsPreprocessor.Prepare(keywords)
+                .Then(wordsAnalyzer.Сonsider)
+                .Then(tagLayouter.PutWords)
+                .Then(e => e.ToList())
+                .RefineError("An error occurred in getting the tags");
+
         }
     }
 }

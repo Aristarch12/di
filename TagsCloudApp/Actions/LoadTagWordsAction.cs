@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using TagsCloudApp.DataProcessors;
-using TagsCloudApp.FileManagers;
 using TagsCloudApp.FileReaders;
-using TagsCloudApp.TagGenerators;
+using TagsCloudApp.Reporter;
+
 
 namespace TagsCloudApp.Actions
 {
@@ -12,12 +12,14 @@ namespace TagsCloudApp.Actions
         private readonly IFileReader fileReader;
         private readonly IDataProcessor dataProcessor;
         private readonly KeywordsStorage keywordsStorage;
+        private readonly IReporter reporter;
 
-        public LoadTagWordsAction(IFileReader fileReader, IDataProcessor dataProcessor, KeywordsStorage keywordsStorage)
+        public LoadTagWordsAction(IFileReader fileReader, IDataProcessor dataProcessor, KeywordsStorage keywordsStorage, IReporter reporter)
         {
             this.fileReader = fileReader;
             this.dataProcessor = dataProcessor;
             this.keywordsStorage = keywordsStorage;
+            this.reporter = reporter;
         }
 
         public string Category { get; } = "Загрузить";
@@ -34,9 +36,11 @@ namespace TagsCloudApp.Actions
             {
                 return;
             }
-            var data = fileReader.Read(dialog.FileName);
-            var phrases = dataProcessor.SelectTagPhrases(data);
-            keywordsStorage.LoadKeywords(phrases);
+            Result.Of(() => fileReader.Read(dialog.FileName))
+                .Then(dataProcessor.SelectTagPhrases)
+                .Then(phrases => keywordsStorage.LoadKeywords(phrases))
+                .RefineError("Failed to load word tags")
+                .OnFail(reporter.Report);
         }
     }
 }

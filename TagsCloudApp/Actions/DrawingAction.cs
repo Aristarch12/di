@@ -1,4 +1,5 @@
 using System;
+using TagsCloudApp.Reporter;
 using TagsCloudApp.Settings;
 using TagsCloudApp.TagGenerators;
 
@@ -11,14 +12,16 @@ namespace TagsCloudApp.Actions
         private readonly KeywordsStorage keywordsStorage;
         private readonly ITagGenerator tagGenerator;
         private readonly ImageSettings imageSettings;
+        private readonly IReporter reporter;
 
-        public DrawingAction(Func<Canvas, ImageSettings, CloudPainter> cloudPainterFactory, Canvas canvas, KeywordsStorage keywordsStorage, ITagGenerator tagGenerator, ImageSettings imageSettings)
+        public DrawingAction(Func<Canvas, ImageSettings, CloudPainter> cloudPainterFactory, Canvas canvas, KeywordsStorage keywordsStorage, ITagGenerator tagGenerator, ImageSettings imageSettings, IReporter reporter)
         {
             this.cloudPainterFactory = cloudPainterFactory;
             this.canvas = canvas;
             this.keywordsStorage = keywordsStorage;
             this.tagGenerator = tagGenerator;
             this.imageSettings = imageSettings;
+            this.reporter = reporter;
         }
 
         public string Category { get; } = "Изображение";
@@ -26,8 +29,10 @@ namespace TagsCloudApp.Actions
         public string Description { get; } = "Нарисовать настроенное облоко";
         public void Perform()
         {
-            var tags = tagGenerator.GetTags(keywordsStorage.GetKeywords(), imageSettings.Center);
-            cloudPainterFactory(canvas, imageSettings).Paint(tags);
+            tagGenerator.GetTags(keywordsStorage.GetKeywords(), imageSettings.Center)
+                .Then(cloudPainterFactory(canvas, imageSettings).Paint)
+                .RefineError("Failed to draw a tag cloud")
+                .OnFail(reporter.Report);
         }
     }
 

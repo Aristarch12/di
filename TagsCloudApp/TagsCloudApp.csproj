@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{45D48EF2-71A4-4FA8-987B-8BB28376FB6C}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TagsCloudApp</RootNamespace>
     <AssemblyName>TagsCloudApp</AssemblyName>
@@ -50,6 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\FontSizeAction.cs" />
+    <Compile Include="Reporter\IReporter.cs" />
+    <Compile Include="Reporter\MessageBoxReporter.cs" />
+    <Compile Include="Result.cs" />
+    <Compile Include="Settings\InfinitiveConverterSettings.cs" />
     <Compile Include="Settings\SettingsForm.cs" />
     <Compile Include="BoringWordsStorage.cs" />
     <Compile Include="CloudPainter.cs" />

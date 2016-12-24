@@ -7,7 +7,7 @@ namespace TagsCloudApp.Layouters
 {
     interface ITagLayouter
     {
-        IEnumerable<Tag> PutWords(IEnumerable<WeightedWord> weightedWords);
-        void SetCenter(Point center);
+        Result<IEnumerable<Tag>> PutWords(IEnumerable<WeightedWord> weightedWords);
+        void SetCenter(Point newCenter);
     }
 }

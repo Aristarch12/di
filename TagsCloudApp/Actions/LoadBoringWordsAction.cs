@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using TagsCloudApp.DataProcessors;
 using TagsCloudApp.FileReaders;
+using TagsCloudApp.Reporter;
 
 namespace TagsCloudApp.Actions
 {
@@ -10,12 +11,14 @@ namespace TagsCloudApp.Actions
         private readonly IFileReader fileReader;
         private readonly IDataProcessor dataProcessor;
         private readonly BoringWordsStorage storage;
+        private readonly IReporter reporter;
 
-        public LoadBoringWordsAction(IFileReader fileReader, IDataProcessor dataProcessor, BoringWordsStorage storage)
+        public LoadBoringWordsAction(IFileReader fileReader, IDataProcessor dataProcessor, BoringWordsStorage storage, IReporter reporter)
         {
             this.fileReader = fileReader;
             this.dataProcessor = dataProcessor;
             this.storage = storage;
+            this.reporter = reporter;
         }
         public string Category { get; } = "Загрузить";
         public string Name { get; } = "Скучные слова";
@@ -30,9 +33,11 @@ namespace TagsCloudApp.Actions
             {
                 return;
             }
-            var data = fileReader.Read(dialog.FileName);
-            var phrases = dataProcessor.SplitWords(data);
-            storage.LoadBoringWords(phrases);
+            Result.Of(() => fileReader.Read(dialog.FileName))
+                .Then(dataProcessor.SelectTagPhrases)
+                .Then(p => storage.LoadBoringWords(p))
+                .RefineError("Failed to load boring words")
+                .OnFail(reporter.Report);
         }
     }
 }

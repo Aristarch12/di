@@ -27,7 +27,10 @@ namespace TagsCloudApp
             builder.RegisterType<ApplicationWindow>().AsSelf();
             builder.RegisterType<Preprocessor>().AsSelf();
             builder.RegisterType<CloudPainter>().AsSelf();
-            var imageSettings = new ImageSettings {Height = 500, Width = 500, TextColor = Color.Crimson, BackdgoundColor = Color.Lavender };
+
+            var converterSettings = new InfinitiveConverterSettings {AffFile = "ru_RU.aff", DictFile = "ru_RU.dic"};
+            builder.RegisterInstance(converterSettings).AsSelf().SingleInstance();
+            var imageSettings = new ImageSettings {Height = 600, Width = 800, TextColor = Color.Crimson, BackdgoundColor = Color.Lavender };
             builder.RegisterInstance(imageSettings).AsSelf().SingleInstance();
             var fontSettings = new FontSettings(FontFamily.GenericSerif, 18, 40);
             builder.RegisterInstance(fontSettings).As<FontSettings>().SingleInstance();

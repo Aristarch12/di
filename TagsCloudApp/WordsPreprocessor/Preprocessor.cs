@@ -11,9 +11,15 @@ namespace TagsCloudApp.WordsPreprocessor
             this.preprocessors = preprocessors;
         }
 
-        public IEnumerable<string> Prepare(IEnumerable<string> wordFlow)
+        public Result<IEnumerable<string>> Prepare(IEnumerable<string> wordFlow)
         {
-            return preprocessors.Aggregate(wordFlow, (current, wordsPreprocessor) => wordsPreprocessor.Prepare(current));
+            var result = wordFlow.AsResult();
+            foreach (var wordsPreprocessor in preprocessors)
+            {
+                result = result.Then(wordsPreprocessor.Prepare);
+            }
+            return result;
+
         }
 
     }

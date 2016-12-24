@@ -6,6 +6,6 @@ namespace TagsCloudApp.TagGenerators
 {
     public interface ITagGenerator
     {
-        List<Tag> GetTags(IEnumerable<string> keywords, Point center);
+        Result<List<Tag>> GetTags(IEnumerable<string> keywords, Point center);
     }
 }

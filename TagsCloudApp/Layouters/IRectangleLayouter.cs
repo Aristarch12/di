@@ -2,7 +2,7 @@
 
 namespace TagsCloudApp.Layouters
 {
-    interface IRectangleLayouter
+    public interface IRectangleLayouter
     {
         Rectangle PutNextRectangle(Size rectangleSize);
         void Clear();
